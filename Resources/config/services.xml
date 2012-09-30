@@ -1,0 +1,41 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="erd_imagine_extensions.filter.loader_ns">ERD\ImagineExtensionsBundle\Filter\AvalancheLoader</parameter>
+        
+        <!-- override the parameter below to insert our enhanced twig extension in the bundle's extension's place -->
+        <parameter key="imagine.twig.extension.class">ERD\ImagineExtensionsBundle\Templating\Twig\Extension\ImagineExtension</parameter>
+    </parameters>
+
+    <services>
+        <!-- try to override the whole imagine templating service so it gets the imagine object (for more advanced computations -->
+        <service id="imagine.twig.extension" class="%imagine.twig.extension.class%" public="false">
+            <tag name="twig.extension" />
+            <argument type="service" id="imagine.cache.path.resolver" />
+            <argument type="service" id="imagine" />
+            <argument type="service" id="http_kernel" />
+            <argument>%imagine.web_root%</argument>
+        </service>
+        
+        <service id="erd_imagine_extensions.filter.loader.elastic_thumbnail" class="%erd_imagine_extensions.filter.loader_ns%\ElasticThumbnailLoader">
+            <tag name="imagine.filter.loader" filter="elastic_thumbnail" />
+        </service>
+        <service id="erd_imagine_extensions.filter.loader.max_height" class="%erd_imagine_extensions.filter.loader_ns%\MaxHeightLoader">
+            <tag name="imagine.filter.loader" filter="max_height" />
+        </service>
+        <service id="erd_imagine_extensions.filter.loader.background_fill" class="%erd_imagine_extensions.filter.loader_ns%\BackgroundFillLoader">
+            <tag name="imagine.filter.loader" filter="background_fill" />
+        </service>
+        <service id="erd_imagine_extensions.filter.loader.smart_crop" class="%erd_imagine_extensions.filter.loader_ns%\SmartCropLoader">
+            <argument type="service" id="erd_imagine_extensions.color_converter" />
+            <tag name="imagine.filter.loader" filter="smart_crop" />
+        </service>
+        
+        <service id="erd_imagine_extensions.color_converter" class="ERD\ImagineExtensionsBundle\ColorManagement\ColorConverter" public="false">
+        </service>
+    </services>
+</container>

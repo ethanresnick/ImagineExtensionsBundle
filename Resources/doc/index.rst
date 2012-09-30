@@ -1,0 +1,2 @@
+When instantiating this bundle in AppKernel.php, make sure to do so after you've instantiated the standard ImagineBundle() 
+to ensure that this bundle's parameter values, which override the Imagine ones, are used in their place.
