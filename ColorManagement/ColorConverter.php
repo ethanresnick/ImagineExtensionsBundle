@@ -198,7 +198,7 @@ class ColorConverter implements ColorConverterInterface
         } // if
         } // if
 
-        $xDH = 2 * sqrt($xCA * $xCB) * sin(rad2deg($xDH / 2));
+        $xDH = 2 * sqrt($xCA * $xCB) * sin(deg2rad($xDH / 2));
         $xLX = ($labA[self::LAB_L] + $labB[self::LAB_L]) / 2;
         $xCY = ($xCA + $xCB) / 2;
 
@@ -218,10 +218,10 @@ class ColorConverter implements ColorConverterInterface
         $xHX /= 2;
         } // if
 
-        $xTX = 1 - 0.17 * cos(rad2deg($xHX - 30))
-        + 0.24 * cos(rad2deg(2 * $xHX))
-        + 0.32 * cos(rad2deg(3 * $xHX + 6))
-        - 0.20 * cos(rad2deg(4 * $xHX - 63));
+        $xTX = 1 - 0.17 * cos(deg2rad($xHX - 30))
+        + 0.24 * cos(deg2rad(2 * $xHX))
+        + 0.32 * cos(deg2rad(3 * $xHX + 6))
+        - 0.20 * cos(deg2rad(4 * $xHX - 63));
 
         $xPH = 30 * exp(- (($xHX  - 275) / 25) * (($xHX  - 275) / 25));
         $xRC = 2 * sqrt((pow($xCY, 7)) / ((pow($xCY, 7)) + (pow(25, 7))));
@@ -229,7 +229,7 @@ class ColorConverter implements ColorConverterInterface
         / sqrt(20 + (($xLX - 50) * ($xLX - 50))));
         $xSC = 1 + 0.045 * $xCY;
         $xSH = 1 + 0.015 * $xCY * $xTX;
-        $xRT = - sin(rad2deg(2 * $xPH)) * $xRC;
+        $xRT = - sin(deg2rad(2 * $xPH)) * $xRC;
         $xDL = $xDL / $weightL * $xSL;
         $xDC = $xDC / $weightC * $xSC;
         $xDH = $xDH / $weightH * $xSH;
